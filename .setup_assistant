@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: ""
+    relative_path: /home/lorenzo/catkin_ws/src/ur5_allegro_moveit/ur5_allegro.xacro
+    xacro_args: "--inorder "
+  SRDF:
+    relative_path: config/ur5_allegro.srdf
+  CONFIG:
+    author_name: Gokhan Solak
+    author_email: g.solak@qmul.ac.uk
+    generated_timestamp: 1532012117

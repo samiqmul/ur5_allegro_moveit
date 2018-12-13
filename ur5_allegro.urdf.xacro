@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro"
+       name="ur5" >
+
+  <!-- allegro -->
+  <xacro:include filename="$(find allegro_hand_description)/allegro_hand_description_right.xacro" />
+
+  <!-- ur5 -->
+  <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro" />
+
+  <!-- arm -->
+  <xacro:ur5_robot prefix="" joint_limited="false"/>
+
+  <link name="world" />
+
+  <joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link = "base_link" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+  <joint name="ee_mount" type="fixed">
+    <parent link="ee_link" />
+    <child link = "hand_root" />
+    <origin xyz="0.0 5.0 12.0" rpy="0.0 -1.5708 0.0" />
+  </joint>
+
+
+</robot>
