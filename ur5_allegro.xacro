@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--- <robot xmlns:xacro="http://ros.org/wiki/xacro" name="ur5" >  -->
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ur5" >
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="ur5_allegro" >
 
   <!-- allegro -->
   <xacro:include filename="$(find allegro_hand_description)/allegro_hand_description_right.xacro" />
@@ -10,6 +10,10 @@
 
   <!-- arm -->
   <xacro:ur5_robot prefix="" joint_limited="false"/>
+
+  <!-- mount part connecting allegro to ur5-->
+  <xacro:include filename="$(find ur5_allegro_moveit)/mount_part.xacro" />
+
 
   <link name="world" />
 
@@ -21,9 +25,14 @@
 
   <joint name="ee_mount" type="fixed">
     <parent link="ee_link" />
-    <child link = "hand_root" />
-    <origin xyz="0.0 0.0 0.0" rpy="0.0 1.5708 0.0" />
+    <child link = "mount_base" />
+    <origin xyz="0.0025 0.0 0.0" rpy="0.0 1.5708 0.0" />
   </joint>
 
+  <joint name="mount_allegro" type="fixed">
+    <parent link="mount_body" />
+    <child link = "hand_root" />
+    <origin xyz="0.0 0.0 0.0375" rpy="0.0 0.0 0.0" />
+  </joint>
 
 </robot>
