@@ -16,31 +16,16 @@
         <chain base_link="hand_root" tip_link="link_3_tip" />
     </group>
     <group name="allegro_finger1">
-        <joint name="root_to_base" />
-        <joint name="joint_4" />
-        <joint name="joint_5" />
-        <joint name="joint_6" />
-        <joint name="joint_7" />
-        <joint name="joint_7_tip" />
+        <chain base_link="hand_root" tip_link="joint_7_tip" />
     </group>
     <group name="allegro_finger2">
-        <joint name="root_to_base" />
-        <joint name="joint_8" />
-        <joint name="joint_9" />
-        <joint name="joint_10" />
-        <joint name="joint_11" />
-        <joint name="joint_11_tip" />
+        <chain base_link="hand_root" tip_link="joint_11_tip" />
+    </group>
+    <group name="allegro_finger3">
+        <chain base_link="hand_root" tip_link="joint_15_tip" />
     </group>
     <group name="ee_ur5">
         <link name="ee_link" />
-    </group>
-    <group name="allegro_finger3">
-        <joint name="root_to_base" />
-        <joint name="joint_12" />
-        <joint name="joint_13" />
-        <joint name="joint_14" />
-        <joint name="joint_15" />
-        <joint name="joint_15_tip" />
     </group>
     <group name="ee_finger0">
         <link name="link_3_tip" />
