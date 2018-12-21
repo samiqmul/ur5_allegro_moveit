@@ -1,7 +1,7 @@
 moveit_setup_assistant_config:
   URDF:
-    package: ""
-    relative_path: /home/lorenzo/catkin_ws/src/ur5_allegro_moveit/ur5_allegro.xacro
+    package: "ur5_allegro_moveit"
+    relative_path: ur5_allegro.xacro
     xacro_args: "--inorder "
   SRDF:
     relative_path: config/ur5_allegro.srdf
