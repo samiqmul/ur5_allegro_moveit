@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(ur5_allegro_moveit)
 
-
+## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
 
 find_package(catkin REQUIRED
@@ -13,6 +13,9 @@ find_package(catkin REQUIRED
     geometry_msgs
 )
 
+# For YouCompleteMe
+set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
+
 catkin_package(
   CATKIN_DEPENDS
     moveit_core
@@ -20,6 +23,20 @@ catkin_package(
     moveit_ros_planning
     moveit_ros_planning_interface
     geometry_msgs
+)
+
+include_directories(
+  include
+  ${catkin_INCLUDE_DIRS}
+)
+
+
+add_executable(merged_joint_states
+  src/js_merger_node.cpp
+)
+
+target_link_libraries(merged_joint_states
+  ${catkin_LIBRARIES}
 )
 
 

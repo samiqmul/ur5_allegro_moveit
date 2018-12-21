@@ -15,22 +15,10 @@ ros::Publisher pub_; // publish merged JointStates
 sensor_msgs::JointState js_ur5_;
 sensor_msgs::JointState js_allegro_;
 
-void ur5Callback(const sensor_msgs::JointState::ConstPtr &msg_in) {
-
-  js_ur5_ = *msg_in;
-
-  publishMerged();
-}
-
-
-void allegroCallback(const sensor_msgs::JointState::ConstPtr &msg_in) {
-
-  js_allegro_ = *msg_in;
-
-  publishMerged();
-}
-
 void publishMerged(){
+
+  if(js_ur5_.name.size()==0 || js_allegro_.name.size()==0)
+    return;
 
   // create merged msg
   sensor_msgs::JointState js_merged;
@@ -57,6 +45,22 @@ void publishMerged(){
   pub_.publish(js_merged);
 
 }
+
+void ur5Callback(const sensor_msgs::JointState::ConstPtr &msg_in) {
+
+  js_ur5_ = *msg_in;
+
+  publishMerged();
+}
+
+
+void allegroCallback(const sensor_msgs::JointState::ConstPtr &msg_in) {
+
+  js_allegro_ = *msg_in;
+
+  publishMerged();
+}
+
 
 int main(int argc, char **argv){
 
