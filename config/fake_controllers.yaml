@@ -25,15 +25,15 @@ controller_list:
       - joint_9
       - joint_10
       - joint_11
-  - name: fake_ee_ur5_controller
-    joints:
-      []
   - name: fake_allegro_finger3_controller
     joints:
       - joint_12
       - joint_13
       - joint_14
       - joint_15
+  - name: fake_ee_ur5_controller
+    joints:
+      []
   - name: fake_ee_finger0_controller
     joints:
       []
