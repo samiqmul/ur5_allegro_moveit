@@ -23,7 +23,7 @@ void publishMerged(){
   // create merged msg
   sensor_msgs::JointState js_merged;
 
-  js_merged.header.stamp = ros::Time();
+  js_merged.header.stamp = ros::Time::now();
 
   // add joints from ur5
   int size_ur5 = js_ur5_.name.size();
