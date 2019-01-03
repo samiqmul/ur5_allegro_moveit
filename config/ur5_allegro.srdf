@@ -43,35 +43,105 @@
         <joint name="joint_8" value="0" />
         <joint name="joint_9" value="0.6" />
     </group_state>
+    <group_state name="arm_hang_wrist_up" group="ur5_arm">
+        <joint name="elbow_joint" value="-0.6559" />
+        <joint name="shoulder_lift_joint" value="-2.4856" />
+        <joint name="shoulder_pan_joint" value="1.3119" />
+        <joint name="wrist_1_joint" value="3.038" />
+        <joint name="wrist_2_joint" value="1.2428" />
+        <joint name="wrist_3_joint" value="2.2094" />
+    </group_state>
+    <group_state name="pregrasp" group="ur5_arm">
+        <joint name="elbow_joint" value="-0.3797" />
+        <joint name="shoulder_lift_joint" value="-2.8308" />
+        <joint name="shoulder_pan_joint" value="1.0357" />
+        <joint name="wrist_1_joint" value="3.1761" />
+        <joint name="wrist_2_joint" value="-0.6214" />
+        <joint name="wrist_3_joint" value="2.3475" />
+    </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="eef0" parent_link="tool0" group="allegro_finger0" parent_group="ur5_arm" />
     <end_effector name="eef1" parent_link="tool0" group="allegro_finger1" parent_group="ur5_arm" />
     <end_effector name="eef2" parent_link="tool0" group="allegro_finger2" parent_group="ur5_arm" />
     <end_effector name="eef3" parent_link="tool0" group="allegro_finger3" parent_group="ur5_arm" />
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="allegro_omd_adapter_0" link2="ee_link" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_0" link2="link_0" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_0" link2="link_1" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_0" link2="link_2" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_0" link2="link_3" reason="Adjacent" />
+    <disable_collisions link1="allegro_omd_adapter_0" link2="link_4" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_0" link2="link_8" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_0" link2="link_9" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_0" link2="mount_base" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_0" link2="mount_body" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_0" link2="omd_0" reason="Adjacent" />
+    <disable_collisions link1="allegro_omd_adapter_0" link2="wrist_1_link" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_0" link2="wrist_2_link" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_0" link2="wrist_3_link" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_1" link2="ee_link" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_1" link2="link_0" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_1" link2="link_13" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_1" link2="link_4" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_1" link2="link_5" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_1" link2="link_6" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_1" link2="link_7" reason="Adjacent" />
+    <disable_collisions link1="allegro_omd_adapter_1" link2="link_8" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_1" link2="mount_base" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_1" link2="mount_body" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_1" link2="omd_1" reason="Adjacent" />
+    <disable_collisions link1="allegro_omd_adapter_1" link2="wrist_1_link" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_1" link2="wrist_2_link" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_1" link2="wrist_3_link" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_2" link2="ee_link" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_2" link2="link_0" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_2" link2="link_1" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_2" link2="link_10" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_2" link2="link_11" reason="Adjacent" />
+    <disable_collisions link1="allegro_omd_adapter_2" link2="link_12" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_2" link2="link_13" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_2" link2="link_4" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_2" link2="link_8" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_2" link2="link_9" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_2" link2="mount_base" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_2" link2="mount_body" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_2" link2="omd_2" reason="Adjacent" />
+    <disable_collisions link1="allegro_omd_adapter_2" link2="wrist_1_link" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_2" link2="wrist_2_link" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_2" link2="wrist_3_link" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_3" link2="ee_link" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_3" link2="link_13" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_3" link2="link_14" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_3" link2="link_15" reason="Adjacent" />
+    <disable_collisions link1="allegro_omd_adapter_3" link2="mount_base" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_3" link2="mount_body" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_3" link2="omd_3" reason="Adjacent" />
+    <disable_collisions link1="allegro_omd_adapter_3" link2="wrist_1_link" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_3" link2="wrist_2_link" reason="Never" />
+    <disable_collisions link1="allegro_omd_adapter_3" link2="wrist_3_link" reason="Never" />
     <disable_collisions link1="base_link" link2="shoulder_link" reason="Adjacent" />
     <disable_collisions link1="ee_link" link2="link_0" reason="Never" />
     <disable_collisions link1="ee_link" link2="link_1" reason="Never" />
     <disable_collisions link1="ee_link" link2="link_10" reason="Never" />
     <disable_collisions link1="ee_link" link2="link_11" reason="Never" />
-    <disable_collisions link1="ee_link" link2="link_11_tip" reason="Never" />
     <disable_collisions link1="ee_link" link2="link_12" reason="Never" />
     <disable_collisions link1="ee_link" link2="link_13" reason="Never" />
     <disable_collisions link1="ee_link" link2="link_14" reason="Never" />
     <disable_collisions link1="ee_link" link2="link_15" reason="Never" />
-    <disable_collisions link1="ee_link" link2="link_15_tip" reason="Never" />
     <disable_collisions link1="ee_link" link2="link_2" reason="Never" />
     <disable_collisions link1="ee_link" link2="link_3" reason="Never" />
-    <disable_collisions link1="ee_link" link2="link_3_tip" reason="Never" />
     <disable_collisions link1="ee_link" link2="link_4" reason="Never" />
     <disable_collisions link1="ee_link" link2="link_5" reason="Never" />
     <disable_collisions link1="ee_link" link2="link_6" reason="Never" />
     <disable_collisions link1="ee_link" link2="link_7" reason="Never" />
-    <disable_collisions link1="ee_link" link2="link_7_tip" reason="Never" />
     <disable_collisions link1="ee_link" link2="link_8" reason="Never" />
     <disable_collisions link1="ee_link" link2="link_9" reason="Never" />
     <disable_collisions link1="ee_link" link2="mount_base" reason="Never" />
     <disable_collisions link1="ee_link" link2="mount_body" reason="Never" />
+    <disable_collisions link1="ee_link" link2="omd_0" reason="Never" />
+    <disable_collisions link1="ee_link" link2="omd_1" reason="Never" />
+    <disable_collisions link1="ee_link" link2="omd_2" reason="Never" />
+    <disable_collisions link1="ee_link" link2="omd_3" reason="Never" />
     <disable_collisions link1="ee_link" link2="palm_link" reason="Never" />
     <disable_collisions link1="ee_link" link2="wrist_1_link" reason="Never" />
     <disable_collisions link1="ee_link" link2="wrist_2_link" reason="Never" />
@@ -81,46 +151,47 @@
     <disable_collisions link1="link_0" link2="link_1" reason="Adjacent" />
     <disable_collisions link1="link_0" link2="link_10" reason="Never" />
     <disable_collisions link1="link_0" link2="link_11" reason="Never" />
-    <disable_collisions link1="link_0" link2="link_11_tip" reason="Never" />
     <disable_collisions link1="link_0" link2="link_12" reason="Never" />
     <disable_collisions link1="link_0" link2="link_13" reason="Never" />
     <disable_collisions link1="link_0" link2="link_14" reason="Never" />
+    <disable_collisions link1="link_0" link2="link_15" reason="Never" />
     <disable_collisions link1="link_0" link2="link_2" reason="Never" />
     <disable_collisions link1="link_0" link2="link_3" reason="Never" />
-    <disable_collisions link1="link_0" link2="link_3_tip" reason="Never" />
     <disable_collisions link1="link_0" link2="link_4" reason="Never" />
     <disable_collisions link1="link_0" link2="link_5" reason="Never" />
     <disable_collisions link1="link_0" link2="link_6" reason="Never" />
     <disable_collisions link1="link_0" link2="link_7" reason="Never" />
-    <disable_collisions link1="link_0" link2="link_7_tip" reason="Never" />
     <disable_collisions link1="link_0" link2="link_8" reason="Never" />
     <disable_collisions link1="link_0" link2="link_9" reason="Never" />
     <disable_collisions link1="link_0" link2="mount_base" reason="Never" />
     <disable_collisions link1="link_0" link2="mount_body" reason="Never" />
+    <disable_collisions link1="link_0" link2="omd_0" reason="Never" />
+    <disable_collisions link1="link_0" link2="omd_1" reason="Never" />
+    <disable_collisions link1="link_0" link2="omd_2" reason="Never" />
     <disable_collisions link1="link_0" link2="palm_link" reason="Adjacent" />
     <disable_collisions link1="link_0" link2="wrist_1_link" reason="Never" />
     <disable_collisions link1="link_0" link2="wrist_2_link" reason="Never" />
     <disable_collisions link1="link_0" link2="wrist_3_link" reason="Never" />
     <disable_collisions link1="link_1" link2="link_10" reason="Never" />
     <disable_collisions link1="link_1" link2="link_11" reason="Never" />
-    <disable_collisions link1="link_1" link2="link_11_tip" reason="Never" />
     <disable_collisions link1="link_1" link2="link_12" reason="Never" />
     <disable_collisions link1="link_1" link2="link_13" reason="Never" />
     <disable_collisions link1="link_1" link2="link_14" reason="Never" />
+    <disable_collisions link1="link_1" link2="link_15" reason="Never" />
     <disable_collisions link1="link_1" link2="link_2" reason="Adjacent" />
     <disable_collisions link1="link_1" link2="link_3" reason="Never" />
-    <disable_collisions link1="link_1" link2="link_3_tip" reason="Never" />
     <disable_collisions link1="link_1" link2="link_4" reason="Never" />
     <disable_collisions link1="link_1" link2="link_8" reason="Never" />
     <disable_collisions link1="link_1" link2="link_9" reason="Never" />
     <disable_collisions link1="link_1" link2="mount_base" reason="Never" />
     <disable_collisions link1="link_1" link2="mount_body" reason="Never" />
+    <disable_collisions link1="link_1" link2="omd_0" reason="Never" />
+    <disable_collisions link1="link_1" link2="omd_2" reason="Never" />
     <disable_collisions link1="link_1" link2="palm_link" reason="Never" />
     <disable_collisions link1="link_1" link2="wrist_1_link" reason="Never" />
     <disable_collisions link1="link_1" link2="wrist_2_link" reason="Never" />
     <disable_collisions link1="link_1" link2="wrist_3_link" reason="Never" />
     <disable_collisions link1="link_10" link2="link_11" reason="Adjacent" />
-    <disable_collisions link1="link_10" link2="link_11_tip" reason="Never" />
     <disable_collisions link1="link_10" link2="link_12" reason="Never" />
     <disable_collisions link1="link_10" link2="link_13" reason="Never" />
     <disable_collisions link1="link_10" link2="link_14" reason="Never" />
@@ -129,32 +200,24 @@
     <disable_collisions link1="link_10" link2="link_9" reason="Adjacent" />
     <disable_collisions link1="link_10" link2="mount_base" reason="Never" />
     <disable_collisions link1="link_10" link2="mount_body" reason="Never" />
+    <disable_collisions link1="link_10" link2="omd_2" reason="Never" />
     <disable_collisions link1="link_10" link2="palm_link" reason="Never" />
     <disable_collisions link1="link_10" link2="wrist_1_link" reason="Never" />
     <disable_collisions link1="link_10" link2="wrist_2_link" reason="Never" />
     <disable_collisions link1="link_10" link2="wrist_3_link" reason="Never" />
-    <disable_collisions link1="link_11" link2="link_11_tip" reason="Adjacent" />
     <disable_collisions link1="link_11" link2="link_12" reason="Never" />
     <disable_collisions link1="link_11" link2="link_13" reason="Never" />
+    <disable_collisions link1="link_11" link2="link_14" reason="Never" />
     <disable_collisions link1="link_11" link2="link_4" reason="Never" />
     <disable_collisions link1="link_11" link2="link_8" reason="Never" />
     <disable_collisions link1="link_11" link2="link_9" reason="Never" />
     <disable_collisions link1="link_11" link2="mount_base" reason="Never" />
     <disable_collisions link1="link_11" link2="mount_body" reason="Never" />
+    <disable_collisions link1="link_11" link2="omd_2" reason="Never" />
     <disable_collisions link1="link_11" link2="palm_link" reason="Never" />
     <disable_collisions link1="link_11" link2="wrist_1_link" reason="Never" />
     <disable_collisions link1="link_11" link2="wrist_2_link" reason="Never" />
     <disable_collisions link1="link_11" link2="wrist_3_link" reason="Never" />
-    <disable_collisions link1="link_11_tip" link2="link_12" reason="Never" />
-    <disable_collisions link1="link_11_tip" link2="link_13" reason="Never" />
-    <disable_collisions link1="link_11_tip" link2="link_4" reason="Never" />
-    <disable_collisions link1="link_11_tip" link2="link_8" reason="Never" />
-    <disable_collisions link1="link_11_tip" link2="link_9" reason="Never" />
-    <disable_collisions link1="link_11_tip" link2="mount_base" reason="Never" />
-    <disable_collisions link1="link_11_tip" link2="mount_body" reason="Never" />
-    <disable_collisions link1="link_11_tip" link2="wrist_1_link" reason="Never" />
-    <disable_collisions link1="link_11_tip" link2="wrist_2_link" reason="Never" />
-    <disable_collisions link1="link_11_tip" link2="wrist_3_link" reason="Never" />
     <disable_collisions link1="link_12" link2="link_13" reason="Adjacent" />
     <disable_collisions link1="link_12" link2="link_14" reason="Never" />
     <disable_collisions link1="link_12" link2="link_15" reason="Never" />
@@ -168,150 +231,162 @@
     <disable_collisions link1="link_12" link2="link_9" reason="Never" />
     <disable_collisions link1="link_12" link2="mount_base" reason="Never" />
     <disable_collisions link1="link_12" link2="mount_body" reason="Never" />
+    <disable_collisions link1="link_12" link2="omd_2" reason="Never" />
     <disable_collisions link1="link_12" link2="palm_link" reason="Adjacent" />
     <disable_collisions link1="link_12" link2="wrist_1_link" reason="Never" />
     <disable_collisions link1="link_12" link2="wrist_2_link" reason="Never" />
     <disable_collisions link1="link_12" link2="wrist_3_link" reason="Never" />
     <disable_collisions link1="link_13" link2="link_14" reason="Adjacent" />
     <disable_collisions link1="link_13" link2="link_15" reason="Never" />
-    <disable_collisions link1="link_13" link2="link_15_tip" reason="Never" />
     <disable_collisions link1="link_13" link2="link_2" reason="Never" />
     <disable_collisions link1="link_13" link2="link_3" reason="Never" />
-    <disable_collisions link1="link_13" link2="link_3_tip" reason="Never" />
     <disable_collisions link1="link_13" link2="link_4" reason="Never" />
     <disable_collisions link1="link_13" link2="link_5" reason="Never" />
     <disable_collisions link1="link_13" link2="link_6" reason="Never" />
     <disable_collisions link1="link_13" link2="link_7" reason="Never" />
-    <disable_collisions link1="link_13" link2="link_7_tip" reason="Never" />
     <disable_collisions link1="link_13" link2="link_8" reason="Never" />
     <disable_collisions link1="link_13" link2="link_9" reason="Never" />
     <disable_collisions link1="link_13" link2="mount_base" reason="Never" />
     <disable_collisions link1="link_13" link2="mount_body" reason="Never" />
+    <disable_collisions link1="link_13" link2="omd_0" reason="Never" />
+    <disable_collisions link1="link_13" link2="omd_1" reason="Never" />
+    <disable_collisions link1="link_13" link2="omd_2" reason="Never" />
+    <disable_collisions link1="link_13" link2="omd_3" reason="Never" />
     <disable_collisions link1="link_13" link2="palm_link" reason="Default" />
     <disable_collisions link1="link_13" link2="wrist_1_link" reason="Never" />
     <disable_collisions link1="link_13" link2="wrist_2_link" reason="Never" />
     <disable_collisions link1="link_13" link2="wrist_3_link" reason="Never" />
     <disable_collisions link1="link_14" link2="link_15" reason="Adjacent" />
-    <disable_collisions link1="link_14" link2="link_15_tip" reason="Never" />
     <disable_collisions link1="link_14" link2="link_4" reason="Never" />
     <disable_collisions link1="link_14" link2="link_5" reason="Never" />
     <disable_collisions link1="link_14" link2="link_8" reason="Never" />
     <disable_collisions link1="link_14" link2="link_9" reason="Never" />
     <disable_collisions link1="link_14" link2="mount_base" reason="Never" />
     <disable_collisions link1="link_14" link2="mount_body" reason="Never" />
+    <disable_collisions link1="link_14" link2="omd_3" reason="Never" />
     <disable_collisions link1="link_14" link2="wrist_1_link" reason="Never" />
     <disable_collisions link1="link_14" link2="wrist_2_link" reason="Never" />
     <disable_collisions link1="link_14" link2="wrist_3_link" reason="Never" />
-    <disable_collisions link1="link_15" link2="link_15_tip" reason="Adjacent" />
+    <disable_collisions link1="link_15" link2="link_4" reason="Never" />
+    <disable_collisions link1="link_15" link2="link_5" reason="Never" />
     <disable_collisions link1="link_15" link2="link_8" reason="Never" />
     <disable_collisions link1="link_15" link2="link_9" reason="Never" />
     <disable_collisions link1="link_15" link2="mount_base" reason="Never" />
     <disable_collisions link1="link_15" link2="mount_body" reason="Never" />
+    <disable_collisions link1="link_15" link2="omd_3" reason="Never" />
     <disable_collisions link1="link_15" link2="wrist_1_link" reason="Never" />
     <disable_collisions link1="link_15" link2="wrist_2_link" reason="Never" />
     <disable_collisions link1="link_15" link2="wrist_3_link" reason="Never" />
-    <disable_collisions link1="link_15_tip" link2="link_8" reason="Never" />
-    <disable_collisions link1="link_15_tip" link2="mount_base" reason="Never" />
-    <disable_collisions link1="link_15_tip" link2="mount_body" reason="Never" />
-    <disable_collisions link1="link_15_tip" link2="wrist_1_link" reason="Never" />
-    <disable_collisions link1="link_15_tip" link2="wrist_2_link" reason="Never" />
-    <disable_collisions link1="link_15_tip" link2="wrist_3_link" reason="Never" />
     <disable_collisions link1="link_2" link2="link_3" reason="Adjacent" />
-    <disable_collisions link1="link_2" link2="link_3_tip" reason="Never" />
     <disable_collisions link1="link_2" link2="link_4" reason="Never" />
     <disable_collisions link1="link_2" link2="link_8" reason="Never" />
     <disable_collisions link1="link_2" link2="link_9" reason="Never" />
     <disable_collisions link1="link_2" link2="mount_base" reason="Never" />
     <disable_collisions link1="link_2" link2="mount_body" reason="Never" />
+    <disable_collisions link1="link_2" link2="omd_0" reason="Never" />
     <disable_collisions link1="link_2" link2="palm_link" reason="Never" />
     <disable_collisions link1="link_2" link2="wrist_1_link" reason="Never" />
     <disable_collisions link1="link_2" link2="wrist_2_link" reason="Never" />
     <disable_collisions link1="link_2" link2="wrist_3_link" reason="Never" />
-    <disable_collisions link1="link_3" link2="link_3_tip" reason="Adjacent" />
     <disable_collisions link1="link_3" link2="link_4" reason="Never" />
     <disable_collisions link1="link_3" link2="link_8" reason="Never" />
     <disable_collisions link1="link_3" link2="link_9" reason="Never" />
     <disable_collisions link1="link_3" link2="mount_base" reason="Never" />
     <disable_collisions link1="link_3" link2="mount_body" reason="Never" />
+    <disable_collisions link1="link_3" link2="omd_0" reason="Never" />
     <disable_collisions link1="link_3" link2="palm_link" reason="Never" />
     <disable_collisions link1="link_3" link2="wrist_1_link" reason="Never" />
     <disable_collisions link1="link_3" link2="wrist_2_link" reason="Never" />
     <disable_collisions link1="link_3" link2="wrist_3_link" reason="Never" />
-    <disable_collisions link1="link_3_tip" link2="link_4" reason="Never" />
-    <disable_collisions link1="link_3_tip" link2="link_8" reason="Never" />
-    <disable_collisions link1="link_3_tip" link2="link_9" reason="Never" />
-    <disable_collisions link1="link_3_tip" link2="mount_base" reason="Never" />
-    <disable_collisions link1="link_3_tip" link2="mount_body" reason="Never" />
-    <disable_collisions link1="link_3_tip" link2="wrist_1_link" reason="Never" />
-    <disable_collisions link1="link_3_tip" link2="wrist_2_link" reason="Never" />
-    <disable_collisions link1="link_3_tip" link2="wrist_3_link" reason="Never" />
     <disable_collisions link1="link_4" link2="link_5" reason="Adjacent" />
     <disable_collisions link1="link_4" link2="link_6" reason="Never" />
     <disable_collisions link1="link_4" link2="link_7" reason="Never" />
-    <disable_collisions link1="link_4" link2="link_7_tip" reason="Never" />
     <disable_collisions link1="link_4" link2="link_8" reason="Never" />
     <disable_collisions link1="link_4" link2="link_9" reason="Never" />
     <disable_collisions link1="link_4" link2="mount_base" reason="Never" />
     <disable_collisions link1="link_4" link2="mount_body" reason="Never" />
+    <disable_collisions link1="link_4" link2="omd_0" reason="Never" />
+    <disable_collisions link1="link_4" link2="omd_1" reason="Never" />
+    <disable_collisions link1="link_4" link2="omd_2" reason="Never" />
     <disable_collisions link1="link_4" link2="palm_link" reason="Adjacent" />
     <disable_collisions link1="link_4" link2="wrist_1_link" reason="Never" />
     <disable_collisions link1="link_4" link2="wrist_2_link" reason="Never" />
     <disable_collisions link1="link_4" link2="wrist_3_link" reason="Never" />
     <disable_collisions link1="link_5" link2="link_6" reason="Adjacent" />
     <disable_collisions link1="link_5" link2="link_7" reason="Never" />
-    <disable_collisions link1="link_5" link2="link_7_tip" reason="Never" />
     <disable_collisions link1="link_5" link2="link_8" reason="Never" />
     <disable_collisions link1="link_5" link2="mount_base" reason="Never" />
     <disable_collisions link1="link_5" link2="mount_body" reason="Never" />
+    <disable_collisions link1="link_5" link2="omd_1" reason="Never" />
     <disable_collisions link1="link_5" link2="palm_link" reason="Never" />
     <disable_collisions link1="link_5" link2="wrist_1_link" reason="Never" />
     <disable_collisions link1="link_5" link2="wrist_2_link" reason="Never" />
     <disable_collisions link1="link_5" link2="wrist_3_link" reason="Never" />
     <disable_collisions link1="link_6" link2="link_7" reason="Adjacent" />
-    <disable_collisions link1="link_6" link2="link_7_tip" reason="Never" />
     <disable_collisions link1="link_6" link2="link_8" reason="Never" />
     <disable_collisions link1="link_6" link2="mount_base" reason="Never" />
     <disable_collisions link1="link_6" link2="mount_body" reason="Never" />
+    <disable_collisions link1="link_6" link2="omd_1" reason="Never" />
     <disable_collisions link1="link_6" link2="palm_link" reason="Never" />
     <disable_collisions link1="link_6" link2="wrist_1_link" reason="Never" />
     <disable_collisions link1="link_6" link2="wrist_2_link" reason="Never" />
     <disable_collisions link1="link_6" link2="wrist_3_link" reason="Never" />
-    <disable_collisions link1="link_7" link2="link_7_tip" reason="Adjacent" />
     <disable_collisions link1="link_7" link2="link_8" reason="Never" />
     <disable_collisions link1="link_7" link2="mount_base" reason="Never" />
     <disable_collisions link1="link_7" link2="mount_body" reason="Never" />
+    <disable_collisions link1="link_7" link2="omd_1" reason="Never" />
     <disable_collisions link1="link_7" link2="palm_link" reason="Never" />
     <disable_collisions link1="link_7" link2="wrist_1_link" reason="Never" />
     <disable_collisions link1="link_7" link2="wrist_2_link" reason="Never" />
     <disable_collisions link1="link_7" link2="wrist_3_link" reason="Never" />
-    <disable_collisions link1="link_7_tip" link2="link_8" reason="Never" />
-    <disable_collisions link1="link_7_tip" link2="mount_base" reason="Never" />
-    <disable_collisions link1="link_7_tip" link2="mount_body" reason="Never" />
-    <disable_collisions link1="link_7_tip" link2="wrist_1_link" reason="Never" />
-    <disable_collisions link1="link_7_tip" link2="wrist_2_link" reason="Never" />
-    <disable_collisions link1="link_7_tip" link2="wrist_3_link" reason="Never" />
     <disable_collisions link1="link_8" link2="link_9" reason="Adjacent" />
     <disable_collisions link1="link_8" link2="mount_base" reason="Never" />
     <disable_collisions link1="link_8" link2="mount_body" reason="Never" />
+    <disable_collisions link1="link_8" link2="omd_0" reason="Never" />
+    <disable_collisions link1="link_8" link2="omd_1" reason="Never" />
+    <disable_collisions link1="link_8" link2="omd_2" reason="Never" />
+    <disable_collisions link1="link_8" link2="omd_3" reason="Never" />
     <disable_collisions link1="link_8" link2="palm_link" reason="Adjacent" />
     <disable_collisions link1="link_8" link2="wrist_1_link" reason="Never" />
     <disable_collisions link1="link_8" link2="wrist_2_link" reason="Never" />
     <disable_collisions link1="link_8" link2="wrist_3_link" reason="Never" />
     <disable_collisions link1="link_9" link2="mount_base" reason="Never" />
     <disable_collisions link1="link_9" link2="mount_body" reason="Never" />
+    <disable_collisions link1="link_9" link2="omd_0" reason="Never" />
+    <disable_collisions link1="link_9" link2="omd_2" reason="Never" />
     <disable_collisions link1="link_9" link2="palm_link" reason="Never" />
     <disable_collisions link1="link_9" link2="wrist_1_link" reason="Never" />
     <disable_collisions link1="link_9" link2="wrist_2_link" reason="Never" />
     <disable_collisions link1="link_9" link2="wrist_3_link" reason="Never" />
     <disable_collisions link1="mount_base" link2="mount_body" reason="Adjacent" />
+    <disable_collisions link1="mount_base" link2="omd_0" reason="Never" />
+    <disable_collisions link1="mount_base" link2="omd_1" reason="Never" />
+    <disable_collisions link1="mount_base" link2="omd_2" reason="Never" />
+    <disable_collisions link1="mount_base" link2="omd_3" reason="Never" />
     <disable_collisions link1="mount_base" link2="palm_link" reason="Never" />
     <disable_collisions link1="mount_base" link2="wrist_1_link" reason="Never" />
     <disable_collisions link1="mount_base" link2="wrist_2_link" reason="Never" />
     <disable_collisions link1="mount_base" link2="wrist_3_link" reason="Adjacent" />
+    <disable_collisions link1="mount_body" link2="omd_0" reason="Never" />
+    <disable_collisions link1="mount_body" link2="omd_1" reason="Never" />
+    <disable_collisions link1="mount_body" link2="omd_2" reason="Never" />
+    <disable_collisions link1="mount_body" link2="omd_3" reason="Never" />
     <disable_collisions link1="mount_body" link2="palm_link" reason="Adjacent" />
     <disable_collisions link1="mount_body" link2="wrist_1_link" reason="Never" />
     <disable_collisions link1="mount_body" link2="wrist_2_link" reason="Never" />
     <disable_collisions link1="mount_body" link2="wrist_3_link" reason="Never" />
+    <disable_collisions link1="omd_0" link2="wrist_1_link" reason="Never" />
+    <disable_collisions link1="omd_0" link2="wrist_2_link" reason="Never" />
+    <disable_collisions link1="omd_0" link2="wrist_3_link" reason="Never" />
+    <disable_collisions link1="omd_1" link2="wrist_1_link" reason="Never" />
+    <disable_collisions link1="omd_1" link2="wrist_2_link" reason="Never" />
+    <disable_collisions link1="omd_1" link2="wrist_3_link" reason="Never" />
+    <disable_collisions link1="omd_2" link2="wrist_1_link" reason="Never" />
+    <disable_collisions link1="omd_2" link2="wrist_2_link" reason="Never" />
+    <disable_collisions link1="omd_2" link2="wrist_3_link" reason="Never" />
+    <disable_collisions link1="omd_3" link2="wrist_1_link" reason="Never" />
+    <disable_collisions link1="omd_3" link2="wrist_2_link" reason="Never" />
+    <disable_collisions link1="omd_3" link2="wrist_3_link" reason="Never" />
     <disable_collisions link1="palm_link" link2="wrist_1_link" reason="Never" />
     <disable_collisions link1="palm_link" link2="wrist_2_link" reason="Never" />
     <disable_collisions link1="palm_link" link2="wrist_3_link" reason="Never" />

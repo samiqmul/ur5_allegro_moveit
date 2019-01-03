@@ -3,7 +3,7 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="ur5_allegro" >
 
   <!-- allegro -->
-  <xacro:include filename="$(find allegro_hand_description)/allegro_hand_description_right.xacro" />
+  <xacro:include filename="$(find lfd_experiments)/model/allegro_optoforce_right.xacro" />
 
   <!-- ur5 -->
   <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro" />

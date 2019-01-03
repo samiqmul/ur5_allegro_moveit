@@ -225,7 +225,7 @@ allegro_finger3:
     - SPARS
     - SPARStwo
 ur5_arm:
-  default_planner_config: None
+  default_planner_config: RRT
   planner_configs:
     - SBL
     - EST
