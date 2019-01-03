@@ -8,4 +8,4 @@ moveit_setup_assistant_config:
   CONFIG:
     author_name: Gokhan Solak
     author_email: g.solak@qmul.ac.uk
-    generated_timestamp: 1545400252
+    generated_timestamp: 1546526469
