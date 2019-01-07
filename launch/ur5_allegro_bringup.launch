@@ -6,6 +6,7 @@
     roslaunch ur5_allegro_bringup.launch robot_ip:=<value>
 -->
 <!-- TODO: limited urdf -->
+<!-- TODO: Multi arms/hands case -->
 <launch>
 
   <!-- robot_ip: IP-address of the robot's socket-messaging server -->
@@ -60,12 +61,22 @@
     <remap from="tf" to="ur5/tf" />
   </node>
 
+  <!-- allegro driver -->
+  <include file="$(find allegro_hand_kdl)/launch/allegro_torque.launch" >
+    <!-- it shall not start rviz or publish TF as they'll be done by ur5_allegro_moveit -->
+    <arg name="TF" value="false"/>
+    <arg name="RVIZ" value="false"/>
+  </include>
 
   <!-- mounted robot model -->
   <include file="$(find ur5_allegro_moveit)/launch/ur5_allegro_upload.launch">
     <arg name="limited" value="$(arg limited)"/>
   </include>
 
+  <!-- publish merged joint states, used for TF -->
+  <include file="$(find ur5_allegro_moveit)/launch/merged_joint_states.launch" />
+
+  <!-- publish tf -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
 </launch>
