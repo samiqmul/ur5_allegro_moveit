@@ -1,5 +1,5 @@
-<package>
-
+<?xml version="1.0"?>
+<package format="2">
   <name>ur5_allegro_moveit</name>
   <version>0.3.0</version>
   <description>
