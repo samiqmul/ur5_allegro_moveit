@@ -2,6 +2,6 @@
 <launch>
   <arg name="limited" default="false" doc="If true, limits joint range [-PI, PI] on all joints." />
 
-  <param unless="$(arg limited)" name="robot_description" command="$(find xacro)/xacro --inorder '$(find ur5_allegro_moveit)/ur5_allegro.xacro'" />
+  <param unless="$(arg limited)" name="robot_description" command="$(find xacro)/xacro --inorder '$(find ur5_allegro_moveit)/models/ur5_allegro.xacro'" />
   <!-- TODO: limited urdf -->
 </launch>
