@@ -61,6 +61,13 @@ void ur5Callback(const sensor_msgs::JointState::ConstPtr &msg_in) {
 
   js_ur5_ = *msg_in;
 
+  // ensure that all vectors are the same size
+  if(js_ur5_.velocity.size() < js_ur5_.name.size())
+    js_ur5_.velocity.resize(js_ur5_.name.size());
+    
+  if(js_ur5_.effort.size() < js_ur5_.name.size())
+    js_ur5_.effort.resize(js_ur5_.name.size());
+
   publishMerged();
 }
 
