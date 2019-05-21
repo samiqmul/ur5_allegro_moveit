@@ -15,7 +15,7 @@ ros::Publisher pub_; // publish merged JointStates
 sensor_msgs::JointState js_ur5_;
 sensor_msgs::JointState js_allegro_;
 
-bool fake_ = false;
+bool overwrite_ = false;
 
 void publishMerged(){
 
@@ -38,9 +38,8 @@ void publishMerged(){
   // add joints from allegro
   int size_allegro = js_allegro_.name.size();
   for (int j=0; j<size_allegro; j++){
-    // during fake execution allegro joint states are already
-    // assigned with fake values, so don't push again
-    if(fake_){
+    
+    if(overwrite_){
       js_merged.position[j] = js_allegro_.position[j];
       js_merged.velocity[j] = js_allegro_.velocity[j];
       js_merged.effort[j] = js_allegro_.effort[j];
@@ -64,7 +63,7 @@ void ur5Callback(const sensor_msgs::JointState::ConstPtr &msg_in) {
   // ensure that all vectors are the same size
   if(js_ur5_.velocity.size() < js_ur5_.name.size())
     js_ur5_.velocity.resize(js_ur5_.name.size());
-    
+
   if(js_ur5_.effort.size() < js_ur5_.name.size())
     js_ur5_.effort.resize(js_ur5_.name.size());
 
@@ -87,8 +86,8 @@ int main(int argc, char **argv){
 
   ros::NodeHandle nh;
 
-  // get fake param
-  ros::param::get("~fake", fake_);
+  // get overwrite param
+  ros::param::get("~overwrite", overwrite_);
 
   ros::Subscriber sub_ur5 = nh.subscribe<sensor_msgs::JointState>( "ur5_js", 1, &ur5Callback);
   ros::Subscriber sub_allegro = nh.subscribe<sensor_msgs::JointState>( "allegro_js", 1, &allegroCallback);
