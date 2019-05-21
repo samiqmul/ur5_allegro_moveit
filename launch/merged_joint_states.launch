@@ -8,7 +8,6 @@
         pkg="ur5_allegro_moveit"
         output="screen">
 
-    <!-- name of the fingertip pose topic -->
     <remap from="ur5_js" to="ur5/joint_states"/>
     <remap from="allegro_js" to="allegroHand_$(arg NUM)/joint_states"/>
 
