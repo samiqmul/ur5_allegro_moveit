@@ -44,6 +44,12 @@
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
     <param name="use_gui" value="$(arg use_gui)"/>
     <rosparam param="source_list">[merged_states]</rosparam>
+    <rosparam param="zeros">
+      shoulder_pan_joint: -1.085
+      shoulder_lift_joint: -1.158
+      elbow_joint: 1.924
+      wrist_1_joint: 3.868
+    </rosparam>
   </node>
 
   <!-- Given the published joint states, publish tf for the robot links -->
