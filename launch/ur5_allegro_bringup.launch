@@ -82,5 +82,4 @@
   <!-- publish base frame of allegro hand, needed for dynamics calculations -->
   <include file="$(find allegro_hand_kdl)/launch/base_pose_publisher.launch" />
 
-
 </launch>
