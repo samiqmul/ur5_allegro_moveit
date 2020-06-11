@@ -4,9 +4,11 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /Axes1
+        - /MotionPlanning1
+        - /MotionPlanning1/Planned Path1
+        - /Marker1
       Splitter Ratio: 0.7425600290298462
-    Tree Height: 203
+    Tree Height: 874
   - Class: rviz/Help
     Name: Help
   - Class: rviz/Views
@@ -280,7 +282,7 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-        Loop Animation: true
+        Loop Animation: false
         Robot Alpha: 0.5
         Robot Color: 150; 50; 150
         Show Robot Collision: false
@@ -544,6 +546,166 @@ Visualization Manager:
       Radius: 0.009999999776482582
       Reference Frame: <Fixed Frame>
       Value: true
+    - Class: rviz/TF
+      Enabled: true
+      Frame Timeout: 15
+      Frames:
+        All Enabled: false
+        allegro_omd_adapter_0:
+          Value: false
+        allegro_omd_adapter_1:
+          Value: false
+        allegro_omd_adapter_2:
+          Value: false
+        allegro_omd_adapter_3:
+          Value: false
+        base:
+          Value: false
+        base_link:
+          Value: false
+        ee_link:
+          Value: false
+        forearm_link:
+          Value: false
+        hand_root:
+          Value: true
+        link_0:
+          Value: false
+        link_1:
+          Value: false
+        link_10:
+          Value: false
+        link_11:
+          Value: false
+        link_11_tip:
+          Value: false
+        link_12:
+          Value: false
+        link_13:
+          Value: false
+        link_14:
+          Value: false
+        link_15:
+          Value: false
+        link_15_tip:
+          Value: false
+        link_2:
+          Value: false
+        link_3:
+          Value: false
+        link_3_tip:
+          Value: false
+        link_4:
+          Value: false
+        link_5:
+          Value: false
+        link_6:
+          Value: false
+        link_7:
+          Value: false
+        link_7_tip:
+          Value: false
+        link_8:
+          Value: false
+        link_9:
+          Value: false
+        mount_base:
+          Value: false
+        mount_body:
+          Value: false
+        object:
+          Value: true
+        omd_0:
+          Value: false
+        omd_1:
+          Value: false
+        omd_2:
+          Value: false
+        omd_3:
+          Value: false
+        palm_link:
+          Value: false
+        shoulder_link:
+          Value: false
+        tool0:
+          Value: false
+        upper_arm_link:
+          Value: false
+        world:
+          Value: false
+        wrist_1_link:
+          Value: false
+        wrist_2_link:
+          Value: false
+        wrist_3_link:
+          Value: false
+      Marker Scale: 0.5
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        world:
+          base_link:
+            base:
+              {}
+            shoulder_link:
+              upper_arm_link:
+                forearm_link:
+                  wrist_1_link:
+                    wrist_2_link:
+                      wrist_3_link:
+                        ee_link:
+                          {}
+                        tool0:
+                          mount_base:
+                            mount_body:
+                              hand_root:
+                                palm_link:
+                                  link_0:
+                                    link_1:
+                                      link_2:
+                                        link_3:
+                                          allegro_omd_adapter_0:
+                                            omd_0:
+                                              link_3_tip:
+                                                {}
+                                  link_12:
+                                    link_13:
+                                      link_14:
+                                        link_15:
+                                          allegro_omd_adapter_3:
+                                            omd_3:
+                                              link_15_tip:
+                                                {}
+                                  link_4:
+                                    link_5:
+                                      link_6:
+                                        link_7:
+                                          allegro_omd_adapter_1:
+                                            omd_1:
+                                              link_7_tip:
+                                                {}
+                                  link_8:
+                                    link_9:
+                                      link_10:
+                                        link_11:
+                                          allegro_omd_adapter_2:
+                                            omd_2:
+                                              link_11_tip:
+                                                {}
+          object:
+            {}
+      Update Interval: 0
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /goal/arrow
+      Name: Marker
+      Namespaces:
+        example: true
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -560,7 +722,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 2.160231828689575
+      Distance: 1.7062488794326782
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -575,26 +737,26 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.6102026700973511
+      Pitch: 0.6152024269104004
       Target Frame: world
       Value: XYOrbit (rviz)
-      Yaw: 1.0999209880828857
+      Yaw: 1.1549193859100342
     Saved: ~
 Window Geometry:
   Displays:
-    collapsed: false
-  Height: 782
+    collapsed: true
+  Height: 1025
   Help:
     collapsed: false
-  Hide Left Dock: false
+  Hide Left Dock: true
   Hide Right Dock: false
   MotionPlanning:
     collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000100000000000002ad000002b4fc0200000007fb000000100044006900730070006c006100790073010000003d00000108000000c900fffffffb0000000800480065006c00700000000342000000bb0000006e00fffffffb0000000a0056006900650077007300000003b0000000b0000000a400fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000004100fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e0067010000014b000001a60000019b00ffffff000002ed000002b400000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000100000000000002ad000003a7fc0200000007fb000000100044006900730070006c006100790073000000003d000003a7000000c900fffffffb0000000800480065006c00700000000342000000bb0000006e00fffffffb0000000a0056006900650077007300000003b0000000b0000000a400fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000004100fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e006700000001cd000002170000019b00ffffff0000073d000003a700000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
-  Width: 1440
-  X: 0
-  Y: 0
+  Width: 1853
+  X: 67
+  Y: 27
