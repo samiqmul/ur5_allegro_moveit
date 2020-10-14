@@ -34,6 +34,9 @@
   <!-- The max_velocity parameter is only used for debugging in the ur_driver. It's not related to actual velocity limits -->
   <arg name="max_velocity" default="10.0"/> <!-- [rad/s] -->
 
+  <!-- whether or not to load allegro model with optoforce sensors -->
+  <arg name="optoforce" default="true"/>
+
   <!-- ur driver -->
   <node name="ur_driver" pkg="ur_modern_driver" type="ur_driver" output="screen">
   <!-- copy the specified IP address to be consistant with ROS-Industrial spec. -->
@@ -71,6 +74,7 @@
   <!-- mounted robot model -->
   <include file="$(find ur5_allegro_moveit)/launch/ur5_allegro_upload.launch">
     <arg name="limited" value="$(arg limited)"/>
+    <arg name="optoforce" value="$(arg optoforce)"/>
   </include>
 
   <!-- publish merged joint states, used for TF -->
@@ -79,7 +83,5 @@
   <!-- publish tf -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
-  <!-- publish base frame of allegro hand, needed for dynamics calculations -->
-  <include file="$(find allegro_hand_kdl)/launch/base_pose_publisher.launch" />
 
 </launch>

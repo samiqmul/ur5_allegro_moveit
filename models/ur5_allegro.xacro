@@ -2,9 +2,15 @@
 <!--- <robot xmlns:xacro="http://ros.org/wiki/xacro" name="ur5" >  -->
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="ur5_allegro" >
 
-  <!-- allegro -->
-  <xacro:include filename="$(find ur5_allegro_moveit)/models/allegro_optoforce_right.xacro" />
+  <xacro:arg name="optoforce" default="true"/>
 
+  <!-- allegro -->
+  <xacro:if value="$(arg optoforce)">
+    <xacro:include filename="$(find ur5_allegro_moveit)/models/allegro_optoforce_right.xacro" />
+  </xacro:if>
+  <xacro:unless value="$(arg optoforce)">
+    <xacro:include filename="$(find allegro_hand_description)/allegro_hand_description_right.xacro" />
+  </xacro:unless>
   <!-- ur5 -->
   <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro" />
 
@@ -32,9 +38,7 @@
   <joint name="mount_allegro" type="fixed">
     <parent link="mount_body" />
     <child link = "hand_root" />
-    <!-- <origin xyz="0.0 0.0 0.0375" rpy="0.0 0.0 -2.356" /> -->
     <origin xyz="0.0 0.0 0.0375" rpy="0.0 0.0 -0.79" />
-
   </joint>
 
 </robot>
