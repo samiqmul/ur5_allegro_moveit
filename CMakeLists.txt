@@ -11,6 +11,10 @@ find_package(catkin REQUIRED
     moveit_ros_planning
     moveit_ros_planning_interface
     geometry_msgs
+    kdl_control_tools
+    tf2_geometry_msgs
+    tf2_ros
+    allegro_hand_kdl
 )
 
 # For YouCompleteMe
@@ -23,6 +27,9 @@ catkin_package(
     moveit_ros_planning
     moveit_ros_planning_interface
     geometry_msgs
+    kdl_control_tools
+    tf2_ros
+    tf2_geometry_msgs
 )
 
 include_directories(
@@ -46,3 +53,19 @@ install(DIRECTORY config DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 
 include_directories( ${catkin_INCLUDE_DIRS} )
+
+add_library(${PROJECT_NAME}
+  src/goal.cpp
+)
+
+add_executable(goal src/goal.cpp)
+add_executable(closegrip src/closegrip.cpp)
+add_executable(dummyforce src/dummyforce.cpp)
+
+add_dependencies(goal ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(closegrip ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(dummyforce ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+target_link_libraries(goal ${catkin_LIBRARIES} )
+target_link_libraries(closegrip ${catkin_LIBRARIES} )
+target_link_libraries(dummyforce ${catkin_LIBRARIES} )
