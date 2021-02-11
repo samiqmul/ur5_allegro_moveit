@@ -49,6 +49,7 @@ tf2::Vector3 next_pose ;
 
 ros::Publisher arrow_pub;
 ros::Publisher envelop_intensity;
+ros::Publisher torque_values;
 
 float object_length;
 
@@ -191,6 +192,26 @@ void envelop()
 }
 
 
+void torque_close()
+{
+  float desired_torques[16]= {0.011171566878036592, -0.06565917703674992, 0.043267385495564157, 0.006338279346367652, 0.012411914363948586, -0.014722661841737615, 0.044705850478346076, 0.015110713000407687, 0.009759421213981764, -0.13483119390580756, -0.005983175336968394, 0.0038796565316640786, -0.19093140327472863, -0.01673824315101389, 0.0020234336393371265, 0.016489904354828434};
+  // Create a JointState msg for torques
+  sensor_msgs::JointState msg_out;
+  msg_out.header.stamp = ros::Time::now();
+  msg_out.position.resize(16);
+  msg_out.velocity.resize(16);
+  msg_out.effort.resize(16);
+  for (int j=0; j < 16; j++){
+  //   // scale with constant
+    msg_out.effort[j] = desired_torques[j];    // names of joints
+    msg_out.name.push_back("joint_"+to_string(j));
+  }  // send!
+
+  torque_values.publish(msg_out);
+
+}
+
+
 
 int main(int argc, char** argv)
 {
@@ -211,9 +232,11 @@ int main(int argc, char** argv)
 
  arrow_pub = node_handle.advertise<visualization_msgs::Marker> ("arrow",1);
  envelop_intensity = node_handle.advertise<std_msgs::Float64>("/envelop_intensity", 3);
+ torque_values = node_handle.advertise<sensor_msgs::JointState>("/allegroHand_0/torque_cmd",1);
 
  clientgrip_request = node_handle.serviceClient<std_srvs::Empty>("/grip_request");
  joint_client =  make_shared<JointPoseClient>();
+
 
  ROS_INFO_NAMED("tutorial", "Subscribed to output_pose");
 
@@ -304,6 +327,14 @@ int main(int argc, char** argv)
     moveit::planning_interface::MoveGroupInterface::Plan my_plan;
     ROS_INFO_STREAM("Going higher pos initially ");
     std::string answer = "";
+
+
+    while(answer != "torque"){
+      torque_close();
+      std::cout << "Change torque values?(torque/n)\n";
+      std::cin >> answer;
+    }
+
     while(answer != "y"){
 
       bool success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
@@ -319,7 +350,7 @@ int main(int argc, char** argv)
 
   target_pose1.position.x = initial_pose[0]  ;
   target_pose1.position.y = initial_pose[1]  ;
-  target_pose1.position.z = initial_pose[2] - 0.1  ; //coming back to orginal position
+  target_pose1.position.z = initial_pose[2] - 0.12  ; //coming back to orginal position
 
   ros::spinOnce();
   cloud_cb(target_pose1);
@@ -412,7 +443,7 @@ int main(int argc, char** argv)
     }
 
   std::string loop = "";
-    while(loop != "fin"){
+    while(loop != "home"){
 
 
   initState.position.y += (next_pose[1] - initState.position.y ) ;
@@ -435,14 +466,18 @@ int main(int argc, char** argv)
 
   my_planC.trajectory_ = trajectory_msg;
   std::string answerC = "";
+  // while(answerC != "fin"){
   while(answerC != "y"){
     std::cout << "Move sideways?(y/n)\n";
     std::cin >> answerC;
   }
     sleep(1.0);
   move_group.execute(my_planC);
-
   waypoints.pop_back();
+  // std::cout << "Open close the hand?(y/n)\n";
+  // std::cin >> answerC;
+// }
+
 
   while(grip != "fin"){
     intensity_value.data =0;
@@ -464,7 +499,7 @@ int main(int argc, char** argv)
     opengripper();
     grip = "again_loop";
 
-  std::cout << "Is loop finsihed?(fin)\n";
+  std::cout << "Is loop finsihed?(home)\n";
   std::cin >> loop;
 
   }
