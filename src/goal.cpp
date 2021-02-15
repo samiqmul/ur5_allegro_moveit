@@ -198,28 +198,16 @@ void torque_close()
 {
   grip = "inloop";
   torquegrip_request.waitForExistence();
-  torquegrip_request.call(srv);
-  //   float desired_torques[16]=
-  //  {-0.011171566878036592, 0.36565917703674992, 0.043267385495564157, 0.006338279346367652,
-  //   -0.012411914363948586, 0.314722661841737615, 0.044705850478346076, 0.015110713000407687,
-  //   -0.009759421213981764, 0.33483119390580756, -0.005983175336968394, 0.0038796565316640786,
-  //   0.009093140327472863, 0.0031673824315101389, 0.320234336393371265, 0.016489904354828434};
-  // // Create a JointState msg for torques
-  // sensor_msgs::JointState msg_out;
-  // msg_out.header.stamp = ros::Time::now();
-  // msg_out.position.resize(16);
-  // msg_out.velocity.resize(16);
-  // msg_out.effort.resize(16);
-  // for (int j=0; j < 16; j++){
-  // //   // scale with constant
-  //   msg_out.effort[j] = desired_torques[j];    // names of joints
-  //   msg_out.name.push_back("joint_"+to_string(j));
-  // }  // send!
-  //
-  // torque_values.publish(msg_out);
-
+  // for (int f=0; f<5;f++)
+  // {
+    torquegrip_request.call(srv);
+    // ros::Duration(0.025).sleep();
+    // std::cout << "Torque loop" << f+1 <<endl;
+  // }
 
 }
+
+
 
 
 
@@ -342,16 +330,16 @@ int main(int argc, char** argv)
     std::string answer = "";
 
 
-    while(answer != "torque"){
-      std::cout << "Close torque gripper ?\n";
-      std::cin >> answer;
-      torque_close();
-      std::cout << "Open gripper ?\n";
-      std::cin >> answer;
-      opengripper();
-      std::cout << "Finish loop ?(torque/n)\n";
-      std::cin >> answer;
-    }
+    // while(answer != "torque"){
+    //   std::cout << "Close torque gripper ?\n";
+    //   std::cin >> answer;
+    //   torque_close();
+    //   std::cout << "Open gripper ?\n";
+    //   std::cin >> answer;
+    //   opengripper();
+    //   std::cout << "Finish loop ?(torque/n)\n";
+    //   std::cin >> answer;
+    // }
 
     while(answer != "y"){
 
@@ -507,7 +495,8 @@ int main(int argc, char** argv)
    while(grip != "y"){
      std::cout << "Close the Grasp?(y/n)\n";
      std::cin >> grip;                         }
-   closegripper();
+   // closegripper();
+    torque_close();
     while(grip != "y"){
       std::cout << "Envelop Intensity?(y/n)\n";
       std::cin >> grip;                        }
