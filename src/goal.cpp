@@ -74,6 +74,7 @@ std_msgs::Float64 intensity_value;
 
 ros::ServiceClient clientgrip_request;
 ros::ServiceClient torquegrip_request;
+ros::ServiceClient movenext_request;
 
 std_srvs::Empty srv;
 std::string grip = "";
@@ -201,7 +202,7 @@ void torque_close()
   // for (int f=0; f<5;f++)
   // {
     torquegrip_request.call(srv);
-    // ros::Duration(0.025).sleep();
+      // ros::Duration(0.025).sleep();
     // std::cout << "Torque loop" << f+1 <<endl;
   // }
 
@@ -235,6 +236,8 @@ int main(int argc, char** argv)
 
  clientgrip_request = node_handle.serviceClient<std_srvs::Empty>("/grip_request");
  torquegrip_request = node_handle.serviceClient<std_srvs::Empty>("/torquegrip_request");
+ movenext_request = node_handle.serviceClient<std_srvs::Empty>("/movenext_request");
+
 
  joint_client =  make_shared<JointPoseClient>();
 
@@ -251,6 +254,7 @@ int main(int argc, char** argv)
   //move_group_interface::MoveGroup group("manipulator");
     // See ompl_planning.yaml for a complete list
   // group.setPlannerId("SBLkConfigDefault");
+
 
 
   // class to add and remove collision objects in our "virtual world" scene
@@ -310,7 +314,7 @@ int main(int argc, char** argv)
   target_pose1.orientation.y = orientationY;
   target_pose1.orientation.z =orientationZ;
   target_pose1.orientation.w =orientationW;
-  target_pose1.position.x =  aa_current - 0.055; //decrease 5cm because of allegro length
+  target_pose1.position.x =  aa_current - 0.06; //decrease 5cm because of allegro length
   // target_pose1.position.y =    bb_current -0.05 ; //offset mid
   target_pose1.position.y =    0.350  ; //offset mid
   target_pose1.position.z =   cc_current + 0.1 ; //10 cm higher
@@ -356,7 +360,7 @@ int main(int argc, char** argv)
 
   target_pose1.position.x = initial_pose[0]  ;
   target_pose1.position.y = initial_pose[1]  ;
-  target_pose1.position.z = initial_pose[2] - 0.12  ; //coming back to orginal position
+  target_pose1.position.z = initial_pose[2] - 0.1  ; // 0.12 foam, 0.05 bottle coming back to orginal position
 
   ros::spinOnce();
   cloud_cb(target_pose1);
@@ -472,7 +476,6 @@ int main(int argc, char** argv)
 
   my_planC.trajectory_ = trajectory_msg;
   std::string answerC = "";
-  // while(answerC != "fin"){
   while(answerC != "y"){
     std::cout << "Move sideways?(y/n)\n";
     std::cin >> answerC;
@@ -480,9 +483,6 @@ int main(int argc, char** argv)
     sleep(1.0);
   move_group.execute(my_planC);
   waypoints.pop_back();
-  // std::cout << "Open close the hand?(y/n)\n";
-  // std::cin >> answerC;
-// }
 
 
   while(grip != "fin"){
@@ -505,6 +505,26 @@ int main(int argc, char** argv)
     std::cin >> grip;  }
     opengripper();
     grip = "again_loop";
+
+      //
+      // for (int j=0; j<25 ; j++)
+      // {
+      // intensity_value.data =0;
+      // envelop_intensity.publish(intensity_value);
+      // opengripper();
+      // sleep(1.0);
+      // torque_close();
+      // sleep(1.0);
+      // envelop();
+      // movenext_request.call(srv);
+      //send empty request to movepoint to ask for next point
+      //movepoint receives metric score and sends to bopt.
+      //bopt sends next point to movepoint,
+      //movepoint asks robot to move next point
+      // opengripper();
+      // sleep(1.0);
+      // robot moves sideways}
+
 
   std::cout << "Is loop finsihed?(home)\n";
   std::cin >> loop;
