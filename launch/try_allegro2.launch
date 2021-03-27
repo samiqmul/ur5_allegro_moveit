@@ -107,8 +107,8 @@
   </include>
   <include file="$(find allegro_hand_kdl)/launch/gravity_compensate.launch" unless="$(arg sim)"/>
 
-  <include file="$(find allegro_hand_kdl)/launch/cartesian_find_points.launch">
-  </include>
+  <!-- <include file="$(find allegro_hand_kdl)/launch/cartesian_find_points.launch"> -->
+  <!-- </include> -->
 
   <include file="$(find allegro_hand_kdl)/launch/joint_pose_control.launch" >
     <arg name="MAINTAIN" value="false"/>

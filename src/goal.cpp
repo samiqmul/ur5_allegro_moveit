@@ -75,6 +75,7 @@ std_msgs::Float64 intensity_value;
 ros::ServiceClient clientgrip_request;
 ros::ServiceClient torquegrip_request;
 ros::ServiceClient movenext_request;
+ros::ServiceClient torquenvelop_request;
 
 std_srvs::Empty srv;
 std::string grip = "";
@@ -189,8 +190,20 @@ void closegripper ()
 void envelop()
 {
     grip = "inloop";
-  intensity_value.data =1.7;
+  intensity_value.data =1;
   envelop_intensity.publish(intensity_value);
+
+  // vector<geometry_msgs::Vector3> force_vec;
+  // vector<geometry_msgs::Vector3> wrench_vec(4);
+  // for(int fi=0; fi < 4; fi++){
+  //   wrench_vec.resize(4);
+  //   wrench_vec[fi] = msg_forces->wrenches[fi].force;
+  //   force_vec.push_back(wrench_vec[fi]);
+  //
+  // pub_forcesenv.wrenches.resize(4);
+  // for(int fi=0; fi < 4; fi++){
+  // pub_forcesenv.wrenches[fi].force  = force_vec[fi] ;}
+  // pub_force.publish(pub_forcesenv);
 
 }
 
@@ -199,17 +212,15 @@ void torque_close()
 {
   grip = "inloop";
   torquegrip_request.waitForExistence();
-  // for (int f=0; f<5;f++)
-  // {
-    torquegrip_request.call(srv);
-      // ros::Duration(0.025).sleep();
-    // std::cout << "Torque loop" << f+1 <<endl;
-  // }
-
+  torquegrip_request.call(srv);
 }
 
-
-
+void torque_envelop()
+{
+  grip = "inloop";
+  torquenvelop_request.waitForExistence();
+  torquenvelop_request.call(srv);
+}
 
 
 int main(int argc, char** argv)
@@ -230,13 +241,16 @@ int main(int argc, char** argv)
  ros::Subscriber sub4 = node_handle.subscribe("/d/object_length", 1, lengthCallback);
 
  arrow_pub = node_handle.advertise<visualization_msgs::Marker> ("arrow",1);
- envelop_intensity = node_handle.advertise<std_msgs::Float64>("/envelop_intensity", 3);
+ envelop_intensity = node_handle.advertise<std_msgs::Float64>("/envelop_intensity", 3); //envelop_force.cpp
  // torque_values = node_handle.advertise<sensor_msgs::JointState>("/manipulation_torque",1);
+ // cartenv_forces = node_handle.advertise<std_msgs::Float64>("publishenv_forces",    1); //to cartesisan close grip
 
 
- clientgrip_request = node_handle.serviceClient<std_srvs::Empty>("/grip_request");
- torquegrip_request = node_handle.serviceClient<std_srvs::Empty>("/torquegrip_request");
- movenext_request = node_handle.serviceClient<std_srvs::Empty>("/movenext_request");
+ clientgrip_request = node_handle.serviceClient<std_srvs::Empty>("/grip_request"); //to gradual_grip node
+ torquegrip_request = node_handle.serviceClient<std_srvs::Empty>("/torquegrip_request"); //to gradual_grip node
+ // torquenvelop_request = node_handle.serviceClient<std_srvs::Empty>("/torquenvelop_request"); //to gradual_grip node
+
+ // movenext_request = node_handle.serviceClient<std_srvs::Empty>("/movenext_request");
 
 
  joint_client =  make_shared<JointPoseClient>();
@@ -274,7 +288,7 @@ int main(int argc, char** argv)
       move_group.allowReplanning(true);
       move_group.setPlanningTime(20);
       // move_group.setPlannerId("RRTConnectkConfigDefault");
-      move_group.setPlannerId("KPIECE");
+      // move_group.setPlannerId("KPIECE");
 
         geometry_msgs::Pose target_pose1;
 
@@ -287,13 +301,6 @@ int main(int argc, char** argv)
 
   // target_pose1.orientation = tf::createQuaternionMsgFromRollPitchYaw(a_current, b_current,c_current);
   // target_pose1.orientation = tf::createQuaternionMsgFromRollPitchYaw(0.1, 0.1,0.1);
-
-  // // In Small Table
-  // target_pose1.position.x =  aa_current+ 0.09  ;
-  // target_pose1.position.y =  0.39 + bb_current ;
-  // target_pose1.position.z =   1.92 -cc_current  ; //added 20cm more
-
-
 
   // // WorKing but Oriented:
   // - Translation: [0.254, 0.475, 1.301]
@@ -333,34 +340,46 @@ int main(int argc, char** argv)
     ROS_INFO_STREAM("Going higher pos initially ");
     std::string answer = "";
 
-
-    // while(answer != "torque"){
-    //   std::cout << "Close torque gripper ?\n";
-    //   std::cin >> answer;
-    //   torque_close();
-    //   std::cout << "Open gripper ?\n";
-    //   std::cin >> answer;
-    //   opengripper();
-    //   std::cout << "Finish loop ?(torque/n)\n";
-    //   std::cin >> answer;
-    // }
-
     while(answer != "y"){
-
       bool success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-
       std::cout << "Safe to execute?(y/n)\n";
       std::cin >> answer;
     }
-
-
     move_group.execute(my_plan);
 
   //~~~#################################################################
+  //~~~####################   ROTATE   ##################################
+    std::map<std::string, double> joints;
+    joints["shoulder_pan_joint"] = 2.51;
+    joints["shoulder_lift_joint"] = -2.51;
+    joints["elbow_joint"] = -2;
+    joints["wrist_1_joint"] = -0.05;
+    joints["wrist_2_joint"] = 1.45;
+    joints["wrist_3_joint"] = 0.17;
+    ros::spinOnce();
+    cloud_cb(target_pose1);
+    move_group.setJointValueTarget(joints);
+    moveit::planning_interface::MoveGroupInterface::Plan my_planO;
+    std::string answerO = "";
+    while(answerO != "y"){
+      bool success = (move_group.plan(my_planO) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+      std::cout << "Safe for orientation?(y/n)\n";
+      std::cin >> answerO;
+    }
+    move_group.execute(my_planO);
 
+
+
+  //~~~#################################################################
+    //~~~###############     LOWER     ################################
+  //~~~#################################################################
+  // target_pose1.orientation.x =0.701;
+  // target_pose1.orientation.y = -0.320;
+  // target_pose1.orientation.z =-0.588;
+  // target_pose1.orientation.w = 0.247;
   target_pose1.position.x = initial_pose[0]  ;
   target_pose1.position.y = initial_pose[1]  ;
-  target_pose1.position.z = initial_pose[2] - 0.1  ; // 0.12 foam, 0.05 bottle coming back to orginal position
+  target_pose1.position.z = initial_pose[2] - 0.08  ; // 0.12 foam, 0.05 bottle coming back to orginal position
 
   ros::spinOnce();
   cloud_cb(target_pose1);
@@ -368,75 +387,40 @@ int main(int argc, char** argv)
   move_group.setMaxVelocityScalingFactor(0.025);
   ROS_INFO_STREAM("Target Pose: " << target_pose1);
 
-
-
   moveit::planning_interface::MoveGroupInterface::Plan my_planC;
          std::string answerC = "";
          while(answerC != "y"){
-
            bool success = (move_group.plan(my_planC) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-
            std::cout << "Safe to lower?(y/n)\n";
            std::cin >> answerC;
          }
+  move_group.execute(my_planC);
 
-    move_group.execute(my_planC);
   //~~~#################################################################
-  //https://answers.ros.org/question/223090/start-or-stop-the-ros-node-in-another-node/
-
-
-  // ////////////////////////////////  LOOP  START  ///////////////////////////////////////////////////////////////
-  // ////////////////////////////////  LOOP  START  ///////////////////////////////////////////////////////////////
-  // geometry_msgs::Pose initState = target_pose1;
-  // std::vector<geometry_msgs::Pose> waypoints;
-  // moveit_msgs::RobotTrajectory trajectory;
-  // const double jump_threshold = 5;
-  // const double eef_step = 0.01;
-  //
-  //   std::string target = "";
-  //     while(target != "fin"){
-  //   std::cout << "Move to Next stage?(fin)\n";
-  //   std::cin >> target;
-  //
-  //   }
-  //
-  // std::string loop = "";
-  //   while(loop != "fin"){
-  //
-  //
-  // initState.position.y += (next_pose[1] - initState.position.y ) ;
-  // waypoints.push_back(initState);
-  // ros::spinOnce();
-  // cloud_cb(initState);
-  // ROS_INFO_STREAM("initState: " << initState);
-  // // ROS_INFO_STREAM("waypoints: " << waypoints.point.x);
-  //   move_group.setMaxVelocityScalingFactor(0.025);
-  // move_group.computeCartesianPath(waypoints, eef_step, jump_threshold, trajectory);
-  // my_planC.trajectory_ = trajectory;
-  // std::string answerC = "";
-  // while(answerC != "y"){
-  //   std::cout << "Move sideways?(y/n)\n";
-  //   std::cin >> answerC;
-  // }
-  //
-  // move_group.execute(my_planC);
-  //
-  // waypoints.pop_back();
-  // std::cout << "Is loop finsihed?(fin)\n";
-  // std::cin >> loop;
-  //
-  // }
-  // ////////////////////////////////  LOOP end  ///////////////////////////////////////////////////////////////
-  // ////////////////////////////////  LOOP end  ///////////////////////////////////////////////////////////////
-
-  ////////////////////////////////  Velocities START  ///////////////////////////////////////////////////////////////
-  ////////////////////////////////   Velocities  START  ///////////////////////////////////////////////////////////////
+  //~~~####################   ROTATE   ##################################
+  // std::map<std::string, double> joints;
+  joints["shoulder_pan_joint"] = 2.39;
+  joints["shoulder_lift_joint"] = -2.57;
+  joints["elbow_joint"] = -1.82;
+  joints["wrist_1_joint"] = -0.21;
+  joints["wrist_2_joint"] = 1.49;
+  joints["wrist_3_joint"] = 0.06;
+  ros::spinOnce();
+  cloud_cb(target_pose1);
+  move_group.setJointValueTarget(joints);
+  moveit::planning_interface::MoveGroupInterface::Plan my_planOA;
+  std::string answerOA = "";
+  while(answerOA != "y"){
+    bool success = (move_group.plan(my_planOA) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+    std::cout << "Safe for orientation?(y/n)\n";
+    std::cin >> answerOA;
+  }
+  move_group.execute(my_planOA);
 
 
 
-
-
-
+  //~~~#################################################################
+  //~~~####################   TRANSLATE  ##################################
 
   geometry_msgs::Pose initState = move_group.getCurrentPose(move_group.getEndEffectorLink().c_str()).pose;;
   std::vector<geometry_msgs::Pose> waypoints;
@@ -495,12 +479,12 @@ int main(int argc, char** argv)
    while(grip != "y"){
      std::cout << "Close the Grasp?(y/n)\n";
      std::cin >> grip;                         }
-   // closegripper();
     torque_close();
     while(grip != "y"){
       std::cout << "Envelop Intensity?(y/n)\n";
       std::cin >> grip;                        }
     envelop();
+    // torque_envelop();
     std::cout << "Finished opening/closing of Grasp?(fin/n)\n";
     std::cin >> grip;  }
     opengripper();
