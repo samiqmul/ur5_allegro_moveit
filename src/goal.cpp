@@ -347,8 +347,8 @@ int main(int argc, char** argv)
     }
     move_group.execute(my_plan);
 
-  //~~~#################################################################
-  //~~~####################   ROTATE   ##################################
+//~~~#################################################################
+//~~~####################   ROTATE   ##################################
     std::map<std::string, double> joints;
     joints["shoulder_pan_joint"] = 2.51;
     joints["shoulder_lift_joint"] = -2.51;
@@ -370,9 +370,9 @@ int main(int argc, char** argv)
 
 
 
-  //~~~#################################################################
-    //~~~###############     LOWER     ################################
-  //~~~#################################################################
+//~~~#################################################################
+//~~~###############     LOWER     ################################
+//~~~#################################################################
   // target_pose1.orientation.x =0.701;
   // target_pose1.orientation.y = -0.320;
   // target_pose1.orientation.z =-0.588;
@@ -396,8 +396,8 @@ int main(int argc, char** argv)
          }
   move_group.execute(my_planC);
 
-  //~~~#################################################################
-  //~~~####################   ROTATE   ##################################
+//~~~#################################################################
+//~~~####################   ROTATE   ##################################
   // std::map<std::string, double> joints;
   joints["shoulder_pan_joint"] = 2.39;
   joints["shoulder_lift_joint"] = -2.57;
@@ -419,10 +419,10 @@ int main(int argc, char** argv)
 
 
 
-  //~~~#################################################################
-  //~~~####################   TRANSLATE  ##################################
+//~~~#################################################################
+//~~~####################   Move to exploration  ##################################
 
-  geometry_msgs::Pose initState = move_group.getCurrentPose(move_group.getEndEffectorLink().c_str()).pose;;
+  geometry_msgs::Pose initState = move_group.getCurrentPose(move_group.getEndEffectorLink().c_str()).pose;
   std::vector<geometry_msgs::Pose> waypoints;
   moveit_msgs::RobotTrajectory trajectory_msg;
   move_group.setPlanningTime(10);
@@ -431,14 +431,16 @@ int main(int argc, char** argv)
 
     std::string target = "";
       while(target != "fin"){
-    std::cout << "Move to Next stage?(fin)\n";
+    std::cout << "Ready for explorations ?(fin)\n";
     std::cin >> target;
-
     }
+    target = "empty";
 
+
+//~~~#################################################################
+//~~~####################   TRANSLATE  ##################################
   std::string loop = "";
     while(loop != "home"){
-
 
   initState.position.y += (next_pose[1] - initState.position.y ) ;
   initState.position.z += (next_pose[2] - initState.position.z ) ;
@@ -490,32 +492,78 @@ int main(int argc, char** argv)
     opengripper();
     grip = "again_loop";
 
-      //
-      // for (int j=0; j<25 ; j++)
-      // {
-      // intensity_value.data =0;
-      // envelop_intensity.publish(intensity_value);
-      // opengripper();
-      // sleep(1.0);
-      // torque_close();
-      // sleep(1.0);
-      // envelop();
-      // movenext_request.call(srv);
-      //send empty request to movepoint to ask for next point
-      //movepoint receives metric score and sends to bopt.
-      //bopt sends next point to movepoint,
-      //movepoint asks robot to move next point
-      // opengripper();
-      // sleep(1.0);
-      // robot moves sideways}
-
 
   std::cout << "Is loop finsihed?(home)\n";
   std::cin >> loop;
 
   }
-  ////////////////////////////////   Velocities end  ///////////////////////////////////////////////////////////////
-  ////////////////////////////////  Velocities end  ///////////////////////////////////////////////////////////////
+
+
+//~~~#################################################################
+//~~~####################   Picking the objects  ##################################
+
+
+
+  while(target != "grasp"){
+
+    for (int i=0; i<3; i ++)
+    {
+    ROS_INFO_STREAM("Grasping object from surface: " <<i);
+    geometry_msgs::Pose initStateG = move_group.getCurrentPose(move_group.getEndEffectorLink().c_str()).pose;
+    initStateG.position.z = initStateG.position.z + 0.1  ;
+
+
+    ROS_INFO_STREAM("Closing Hand: ");
+    torque_close();
+
+    sleep(3.0);
+    ROS_INFO_STREAM("Envelop force : ");
+    envelop();
+
+    ROS_INFO_STREAM("Lifting the object : ");
+    ros::spinOnce();
+    cloud_cb(initStateG);
+    move_group.setPoseTarget(initStateG);
+    move_group.setMaxVelocityScalingFactor(0.025);
+
+    moveit::planning_interface::MoveGroupInterface::Plan my_planG;
+    bool success = (move_group.plan(my_planG) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+    move_group.execute(my_planG);
+    // moveit::planning_interface::MoveGroupInterface::Plan my_planG;
+    // std::string answerG = "";
+    // while(answerG != "y"){
+    //   bool success = (move_group.plan(my_planG) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+    //   std::cout << "Safe to PICK UP?(y/n)\n";
+    //   std::cin >> answerG;}
+    // move_group.execute(my_planG);
+    // answerG = "";
+
+    sleep(5.0);
+    ROS_INFO_STREAM("Dropping object: ");
+    opengripper();
+
+    sleep(5.0);
+    ROS_INFO_STREAM("Lowering arm: ");
+    initStateG.position.z = initStateG.position.z - 0.1  ;
+    ros::spinOnce();
+    cloud_cb(initStateG);
+    move_group.setPoseTarget(initStateG);
+    bool successl = (move_group.plan(my_planG) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+    move_group.execute(my_planG);
+    // while(answerG != "y"){
+    //   bool success = (move_group.plan(my_planG) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+    //   std::cout << "Safe to LOWER arm?(y/n)\n";
+    //   std::cin >> answerG;}
+    // move_group.execute(my_planG);
+    // answerG = "";
+    sleep(3.0);
+    }
+  std::cout << "Repeat loop for lifting object? (grasp)\n";
+  std::cin >> target;
+  }
+
+//~~~//////////////////////////////   Velocities end  ///////////////////////////////////////////////////////////////
+//~~~//////////////////////////////  Velocities end  ///////////////////////////////////////////////////////////////
 
 
  target_pose1 = home_pose;
