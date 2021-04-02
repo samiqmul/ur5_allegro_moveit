@@ -342,10 +342,20 @@ int main(int argc, char** argv)
 
     while(answer != "y"){
       bool success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-      std::cout << "Safe to execute?(y/n)\n";
-      std::cin >> answer;
+      ROS_INFO_STREAM("bool " <<  success );
+      if (success==1)
+      {
+        std::cout << "Safe to execute?(y/n)\n";
+        std::cin >> answer;
+      }
+      else
+      {
+        bool success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+        ROS_INFO_STREAM("bool " <<  success );
+      }
     }
     move_group.execute(my_plan);
+
 
 //~~~#################################################################
 //~~~####################   ROTATE   ##################################
@@ -467,6 +477,7 @@ int main(int argc, char** argv)
     std::cin >> answerC;
   }
     sleep(1.0);
+  move_group.setMaxVelocityScalingFactor(0.025);
   move_group.execute(my_planC);
   waypoints.pop_back();
 
@@ -505,58 +516,79 @@ int main(int argc, char** argv)
 
 
   while(target != "grasp"){
-
-    for (int i=0; i<3; i ++)
-    {
-    ROS_INFO_STREAM("Grasping object from surface: " <<i);
     geometry_msgs::Pose initStateG = move_group.getCurrentPose(move_group.getEndEffectorLink().c_str()).pose;
-    initStateG.position.z = initStateG.position.z + 0.1  ;
 
+    for (int i=0; i<20; i ++)
+    {
+    ROS_INFO_STREAM("Grasping object from surface: " <<i+1);
 
+    sleep(5.0);
     ROS_INFO_STREAM("Closing Hand: ");
     torque_close();
 
-    sleep(3.0);
+    sleep(5.0);
     ROS_INFO_STREAM("Envelop force : ");
     envelop();
 
-    ROS_INFO_STREAM("Lifting the object : ");
+    ros::spinOnce();
+    initStateG.position.z = initStateG.position.z + 0.15 ;
+    cloud_cb(initStateG);
+    move_group.setPoseTarget(initStateG);
+    move_group.setMaxVelocityScalingFactor(0.025);
+    moveit::planning_interface::MoveGroupInterface::Plan my_planG;
+    bool success2 = (move_group.plan(my_planG) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+    if (success2==1)
+    {
+      ROS_INFO_STREAM("Lifting the object : ");
+      move_group.execute(my_planG);
+    }
+    else
+    {
+      bool success2 = (move_group.plan(my_planG) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+      ROS_INFO_STREAM("Trying again path planning " );
+    }
+
+    sleep(1.0);
+    for (int i=0; i<10; i ++)
+    {
+      sleep(1.0);
+      ROS_INFO_STREAM("TIME PASSED (secs): "<< i+1);
+    }
+
+    ROS_INFO_STREAM("Lowering arm: ");
+    initStateG.position.z = initStateG.position.z - 0.15  ;
     ros::spinOnce();
     cloud_cb(initStateG);
     move_group.setPoseTarget(initStateG);
     move_group.setMaxVelocityScalingFactor(0.025);
+    moveit::planning_interface::MoveGroupInterface::Plan my_planL;
 
-    moveit::planning_interface::MoveGroupInterface::Plan my_planG;
-    bool success = (move_group.plan(my_planG) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-    move_group.execute(my_planG);
-    // moveit::planning_interface::MoveGroupInterface::Plan my_planG;
-    // std::string answerG = "";
-    // while(answerG != "y"){
-    //   bool success = (move_group.plan(my_planG) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-    //   std::cout << "Safe to PICK UP?(y/n)\n";
-    //   std::cin >> answerG;}
-    // move_group.execute(my_planG);
-    // answerG = "";
 
-    sleep(5.0);
-    ROS_INFO_STREAM("Dropping object: ");
+
+    bool success1 = (move_group.plan(my_planL) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+      if (success1==1)
+      {
+        for (int i=0; i<3; i ++)
+        {
+        ROS_INFO_STREAM("Moving  : "<< i);
+        move_group.execute(my_planL);
+        sleep(2.0);
+        move_group.setPoseTarget(initStateG);
+        // moveit::planning_interface::MoveGroupInterface::Plan my_planG;
+        success1 = (move_group.plan(my_planL) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+        }
+      }
+      else
+      {
+        bool success1 = (move_group.plan(my_planL) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+        ROS_INFO_STREAM("Trying again path planning " );
+      }
+
+
+    ROS_INFO_STREAM("Opening grasp: ");
     opengripper();
-
     sleep(5.0);
-    ROS_INFO_STREAM("Lowering arm: ");
-    initStateG.position.z = initStateG.position.z - 0.1  ;
-    ros::spinOnce();
-    cloud_cb(initStateG);
-    move_group.setPoseTarget(initStateG);
-    bool successl = (move_group.plan(my_planG) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-    move_group.execute(my_planG);
-    // while(answerG != "y"){
-    //   bool success = (move_group.plan(my_planG) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-    //   std::cout << "Safe to LOWER arm?(y/n)\n";
-    //   std::cin >> answerG;}
-    // move_group.execute(my_planG);
-    // answerG = "";
-    sleep(3.0);
+
     }
   std::cout << "Repeat loop for lifting object? (grasp)\n";
   std::cin >> target;
